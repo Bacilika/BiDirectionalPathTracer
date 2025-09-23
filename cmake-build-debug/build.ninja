@@ -89,14 +89,6 @@ build CMakeFiles/BiDirectinalPathTracer.dir/material.cpp.obj: CXX_COMPILER__BiDi
   OBJECT_DIR = CMakeFiles\BiDirectinalPathTracer.dir
   OBJECT_FILE_DIR = CMakeFiles\BiDirectinalPathTracer.dir
 
-build CMakeFiles/BiDirectinalPathTracer.dir/intersection.cpp.obj: CXX_COMPILER__BiDirectinalPathTracer_unscanned_Debug C$:/Users/lunas/CLionProjects/BiDirectinalPathTracer/intersection.cpp || cmake_object_order_depends_target_BiDirectinalPathTracer
-  CONFIG = Debug
-  DEP_FILE = CMakeFiles\BiDirectinalPathTracer.dir\intersection.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -IC:/libs
-  OBJECT_DIR = CMakeFiles\BiDirectinalPathTracer.dir
-  OBJECT_FILE_DIR = CMakeFiles\BiDirectinalPathTracer.dir
-
 build CMakeFiles/BiDirectinalPathTracer.dir/image.cpp.obj: CXX_COMPILER__BiDirectinalPathTracer_unscanned_Debug C$:/Users/lunas/CLionProjects/BiDirectinalPathTracer/image.cpp || cmake_object_order_depends_target_BiDirectinalPathTracer
   CONFIG = Debug
   DEP_FILE = CMakeFiles\BiDirectinalPathTracer.dir\image.cpp.obj.d
@@ -121,7 +113,7 @@ build CMakeFiles/BiDirectinalPathTracer.dir/light.cpp.obj: CXX_COMPILER__BiDirec
 #############################################
 # Link the executable BiDirectinalPathTracer.exe
 
-build BiDirectinalPathTracer.exe: CXX_EXECUTABLE_LINKER__BiDirectinalPathTracer_Debug CMakeFiles/BiDirectinalPathTracer.dir/main.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/camera.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/scene.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/geometry.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/material.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/intersection.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/image.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/light.cpp.obj
+build BiDirectinalPathTracer.exe: CXX_EXECUTABLE_LINKER__BiDirectinalPathTracer_Debug CMakeFiles/BiDirectinalPathTracer.dir/main.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/camera.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/scene.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/geometry.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/material.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/image.cpp.obj CMakeFiles/BiDirectinalPathTracer.dir/light.cpp.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

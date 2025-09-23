@@ -10,7 +10,7 @@ struct Image {
     int width;
     int height;
     std::vector<glm::vec3> pixels;
-    Image(int w, int h) : width(w), height(h), pixels(w*h, glm::vec3(0)) {}
+    Image(const int w, const int h) : width(w), height(h), pixels(w*h, glm::vec3(0)) {}
     void savePPM(const std::string& filename) const;
 };
 

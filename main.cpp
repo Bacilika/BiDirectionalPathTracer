@@ -14,14 +14,19 @@ int main() {
 
     int width = 512, height = 512;
     Image image(width, height);
-
+    vec3 hitColor(0,1,0);
     for(int j = 0; j < height; j++) {
         for(int i = 0; i < width; i++) {
+            // to get pixel coordinate in [0,1] range
             float u = (static_cast<float>(i) + 0.5f) / static_cast<float>(width);
             float v = (static_cast<float>(j) + 0.5f) / static_cast<float>(height);
             Ray ray = cam.getRay(u, v);
+            if ()
 
-            vec3 hitColor(0,1,0);
+            float ivalue = (i%64)/512.f;
+            float jvalue = (j%64)/512.f;
+            hitColor = vec3(2*sin(jvalue) +sin(ivalue),0,sin(jvalue) + sin(ivalue));
+
             image.pixels[j*width + i] = hitColor;
         }
     }

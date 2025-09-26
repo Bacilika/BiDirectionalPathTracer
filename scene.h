@@ -1,6 +1,7 @@
 ﻿
 #ifndef BIDIRECTINALPATHTRACER_SCENE_H
 #define BIDIRECTINALPATHTRACER_SCENE_H
+#include <memory>
 #include <vector>
 
 #include "geometry.h"
@@ -9,10 +10,10 @@
 
 
 struct Scene {
-    std::vector<Sphere> objects;
+    std::vector<std::shared_ptr<Geometry>> objects;
     std::vector<Light> lights;
 
-    bool intersect(const Ray& ray, vec3& hitPoint, vec3& normal, Material& material) const;
+    bool intersect(const Ray& ray,HitRecord& closestHit) const;
 };
 
 

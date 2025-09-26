@@ -5,10 +5,10 @@
 
 using namespace glm;
 struct Material {
-    vec3 ambient;
-    vec3 diffuse;
-    vec3 specular;
+    float diffuse;
+    float specular;
     float shininess;
+    vec3 color;
 };
 
 

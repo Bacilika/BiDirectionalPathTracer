@@ -8,6 +8,7 @@ public:
     float radius;
     Material material;
 
+
     Sphere(const vec3& c, float r, const Material& m)
         : center(c), radius(r), material(m) {}
 
@@ -29,6 +30,9 @@ public:
         rec.normal = normalize(rec.point - center);
         rec.material = material;
         return true;
+    }
+    const Material& getMaterial() const override {
+        return material;
     }
 };
 
@@ -57,6 +61,9 @@ public:
         rec.material = material;
         return true;
     }
+    const Material& getMaterial() const override {
+        return material;
+    }
 };
 
 class XZRectangle final : public Geometry {
@@ -84,6 +91,9 @@ public:
         rec.material = material;
         return true;
     }
+    const Material& getMaterial() const override {
+        return material;
+    }
 };
 
 class YZRectangle final : public Geometry {
@@ -110,5 +120,8 @@ public:
         rec.normal = vec3((ray.direction.x > 0 ? -1 : 1), 0, 0);
         rec.material = material;
         return true;
+    }
+    const Material& getMaterial() const override {
+        return material;
     }
 };

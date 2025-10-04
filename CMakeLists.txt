@@ -17,4 +17,8 @@ add_executable(BiDirectinalPathTracer main.cpp
         image.h
         light.cpp
         light.h
+        random.cpp
+        random.h
+        PathVertex.cpp
+        PathVertex.h
 )

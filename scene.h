@@ -11,7 +11,6 @@
 
 struct Scene {
     std::vector<std::shared_ptr<Geometry>> objects;
-    std::vector<Light> lights;
 
     bool intersect(const Ray& ray,HitRecord& closestHit) const;
 };

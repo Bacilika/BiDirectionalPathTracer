@@ -379,6 +379,97 @@ vec3 tracePath(const Ray& ray, const Scene& scene) {
  *
  * @param scene The scene object to populate with geometry
  */
+
+void createFlashyScene(Scene& scene) {
+    float depth = -3.0f;
+    float closest = 1.5f;
+    float left = -2.0f;
+    float right = 2.0f;
+    float down = -2.0f;
+    float up = 2.0f;
+    float middlex = (left + right) / 2.0f;
+    float middley = (down + up) / 2.0f;
+    float middlez = (depth + closest) / 2.0f;
+
+    // ====== ENHANCED WALLS WITH SOME SPECULARITY ======
+    float wallDiffuse = 1.4f;
+    float wallSpecular = 0.2f; // Added slight specular for reflections
+    Material floorMat{ wallDiffuse, wallSpecular, 500.0f, vec3(0.5f, 0.5f, 0.8f) };
+    Material roofMat{ wallDiffuse, wallSpecular, 500.0f, vec3(0.9f, 0.9f, 0.9f) };
+    Material leftMat{ wallDiffuse, wallSpecular, 500.0f, vec3(0.9f, 0.2f, 0.2f) };  // Brighter red
+    Material rightMat{ wallDiffuse, wallSpecular, 500.0f, vec3(0.2f, 0.9f, 0.2f) }; // Brighter green
+    Material backMat{ wallDiffuse, wallSpecular, 500.0f, vec3(0.3f, 0.2f, 0.8f) };  // Deeper purple
+
+    scene.objects.push_back(std::make_shared<XZRectangle>(left, right, depth, closest, down, floorMat));
+    scene.objects.push_back(std::make_shared<XZRectangle>(left, right, depth, closest, up, roofMat));
+    scene.objects.push_back(std::make_shared<YZRectangle>(down, up, depth, closest, left, leftMat));
+    scene.objects.push_back(std::make_shared<YZRectangle>(down, up, depth, closest, right, rightMat));
+    scene.objects.push_back(std::make_shared<XYRectangle>(left, right, down, up, depth, backMat));
+
+    // ====== MULTIPLE COLORED LIGHTS FOR COMPLEX ILLUMINATION ======
+    Material whiteLightMat{0.0f, 0.0f, 0.0f, vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f), 8.0f};
+    Material redLightMat{0.0f, 0.0f, 0.0f, vec3(1.0f, 0.3f, 0.3f), vec3(1.0f, 0.3f, 0.3f), 30.0f};
+    Material blueLightMat{0.0f, 0.0f, 0.0f, vec3(0.3f, 0.3f, 1.0f), vec3(0.3f, 0.3f, 1.0f), 30.0f};
+
+    // Main white light
+    scene.objects.push_back(std::make_shared<XZRectangle>(
+        right-0.6f, right-0.1f, depth+0.5f, depth+1.0f, up-0.01f, whiteLightMat));
+
+    // Colored accent lights
+    scene.objects.push_back(std::make_shared<XZRectangle>(
+        left+0.1f, left+0.3f, depth+1.0f, depth+1.5f, up-0.01f, redLightMat));
+
+    scene.objects.push_back(std::make_shared<YZRectangle>(
+        down+0.5f, down+1.0f, depth+0.5f, depth+1.0f, left+0.01f, blueLightMat));
+
+    // ====== SPECTACULAR OBJECT ARRANGEMENT ======
+
+    // 1. CENTRAL GLASS SPHERE (refractive caustics)
+    Material glassMat{0.0f, 1.0f, 1000.0f, vec3(1.0f, 1.0f, 1.0f)};
+    auto glassSphere = std::make_shared<Sphere>(vec3(middlex, middley, middlez-1.5f), 0.6f, glassMat);
+    scene.objects.push_back(glassSphere);
+
+    // 2. MIRRORED SPHERE (specular caustics and reflections)
+    Material mirrorMat{0.0f, 1.0f, 2000.0f, vec3(0.95f, 0.95f, 1.0f)};
+    auto mirrorSphere = std::make_shared<Sphere>(vec3(middlex+1.0f, middley-0.3f, middlez-1.0f), 0.4f, mirrorMat);
+    scene.objects.push_back(mirrorSphere);
+
+    // 3. COLORED METALLIC SPHERE (glossy reflections)
+    Material metalMat{0.3f, 0.7f, 300.0f, vec3(0.1f, 0.6f, 0.9f)};
+    auto metalSphere = std::make_shared<Sphere>(vec3(middlex-1.0f, middley-0.3f, middlez-1.0f), 0.4f, metalMat);
+    scene.objects.push_back(metalSphere);
+
+    // 4. DIAMOND-LIKE GLASS PYRAMID (complex caustics)
+    Material diamondMat{0.0f, 1.0f, 1500.0f, vec3(1.0f, 1.0f, 1.0f)};
+    // For simplicity, using a small glass sphere as placeholder - in advanced version, implement actual triangles
+    auto diamond = std::make_shared<Sphere>(vec3(middlex, middley-1.2f, middlez-0.5f), 0.25f, diamondMat);
+    scene.objects.push_back(diamond);
+
+    // 5. GLASS RECTANGLE ON FLOOR (planar refraction)
+    Material glassRectMat{0.0f, 1.0f, 1000.0f, vec3(1.0f, 1.0f, 1.0f)};
+    auto glassRect = std::make_shared<XZRectangle>(
+        middlex-0.4f, middlex+0.4f, middlez-2.0f, middlez-1.0f, down+0.02f, glassRectMat);
+    scene.objects.push_back(glassRect);
+
+    // 6. FLOATING DIFFUSE SPHERES (color bleeding demonstration)
+    Material redSphereMat{1.0f, 0.1f, 50.0f, vec3(0.9f, 0.1f, 0.1f)};
+    Material greenSphereMat{1.0f, 0.1f, 50.0f, vec3(0.1f, 0.9f, 0.1f)};
+    Material yellowSphereMat{1.0f, 0.1f, 50.0f, vec3(0.9f, 0.9f, 0.1f)};
+
+    auto redSphere = std::make_shared<Sphere>(vec3(middlex-0.8f, middley+0.8f, middlez-2.2f), 0.25f, redSphereMat);
+    auto greenSphere = std::make_shared<Sphere>(vec3(middlex+0.8f, middley+0.8f, middlez-2.2f), 0.25f, greenSphereMat);
+    auto yellowSphere = std::make_shared<Sphere>(vec3(middlex, middley+1.0f, middlez-1.8f), 0.2f, yellowSphereMat);
+
+    scene.objects.push_back(redSphere);
+    scene.objects.push_back(greenSphere);
+    scene.objects.push_back(yellowSphere);
+
+    // 7. MIRRORED CUBE (complex specular interactions)
+    Material mirrorCubeMat{0.0f, 1.0f, 2000.0f, vec3(0.9f, 0.9f, 1.0f)};
+    // Using a sphere as cube placeholder - implement actual cube in advanced version
+    auto mirrorCube = std::make_shared<Sphere>(vec3(middlex-0.6f, middley+0.6f, middlez-0.8f), 0.3f, mirrorCubeMat);
+    scene.objects.push_back(mirrorCube);
+}
 void createScene(Scene& scene) {
     auto material2 = Material{1, 1.1, 100, vec3(0,0.6,1)};
     auto sphere2 = std::make_shared<Sphere>(vec3(-1, 0, 0),1,material2);
@@ -497,10 +588,10 @@ int main() {
     Camera cam;
     Scene scene;
 
-    createScene(scene);
+    createFlashyScene(scene);
 
     int width = 400, height = 400;
-    int samplesPerPixel = 512; // Increase for better quality
+    int samplesPerPixel = 4096; // Increase for better quality
     Image image(width, height);
 
     std::cout << "Rendering with " << samplesPerPixel << " samples per pixel..." << std::endl;

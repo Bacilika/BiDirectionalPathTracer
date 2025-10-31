@@ -18,7 +18,7 @@ struct PathVertex {
     const Material material;
     vec3 throughput;  // Cumulative weight up to this vertex
     float pdf;        // PDF of the sampling strategy that generated this vertex
-    bool isLight;     // Whether this vertex is on a light source
+    bool isLight;
 
     PathVertex(const HitRecord& hit, const vec3& incomingDir, const vec3& weight, float pdf_ = 1.0f)
         : point(hit.point), normal(hit.normal), wi(incomingDir), material(hit.material),

@@ -1,7 +1,4 @@
-﻿//
-// Created by lunas on 2025-10-02.
-//
-
+﻿
 #include "random.h"
 
 // Initialize static members

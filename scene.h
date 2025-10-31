@@ -5,9 +5,6 @@
 #include <vector>
 
 #include "geometry.h"
-#include "light.h"
-#include "material.h"
-
 
 struct Scene {
     std::vector<std::shared_ptr<Geometry>> objects;
